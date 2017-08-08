@@ -6,7 +6,7 @@ spl_autoload_register(function($nameClass){
 
 	//$filename = $dirClass . DIRECTORY_SEPARATOR . $nameClass .".php";
 
-	$filename = $nameClass.".php";
+	$filename = "class" . DIRECTORY_SEPARATOR .$nameClass.".php";
 
 	if(file_exists($filename)){
 
