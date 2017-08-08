@@ -49,6 +49,49 @@ class Usuario {
 			$this->setCadastro(new DateTime ($row["cadastro"]));
 		}		
 	} 
+
+	public static function getList(){
+
+		$sql = new Sql();
+
+		return $sql->select("SELECT * FROM tbusuarios ORDER BY login;");
+
+	}
+
+	public static function search($login){
+
+		$sql = new Sql();
+
+		return $sql->select("SELECT * FROM tbusuarios WHERE login LIKE :SEARCH  ORDER BY login", array(
+			':SEARCH'=>"%".$login."%"
+
+			));
+
+	}
+
+	public function login($login, $password){
+
+		$sql = new Sql();
+
+		$resultado = $sql->select("SELECT * FROM tbusuarios WHERE login = :LOGIN AND logoff = :PASSWORD", array(
+		    ":LOGIN"=>$login,
+		    ":PASSWORD"=>$password
+		    ));
+		
+		if (count($resultado) > 0){
+
+			$row = $resultado[0];
+
+			$this->setIdusuario($row['idusuario']);
+			$this->setLogin($row['login']);
+			$this->setLogoff($row['logoff']);
+			$this->setCadastro(new DateTime ($row["cadastro"]));
+		} else {
+			throw new Exception("Erro de Login e/ou Senha");
+
+		}
+	}
+
 	public function __toString(){
 
 		return json_encode(array(

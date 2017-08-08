@@ -17,9 +17,26 @@
 
 require_once ("config.php"); 
 
-$emp = new Usuario();
-$emp->loadbyId(1);
+//Carrega uma lista de usuários.
+//$lista = Usuario::getList();
+//echo json_encode($lista);
+
+//Carrega um usuário.
+/*$emp = new Usuario();
+$emp->loadbyId(2);
 echo $emp;
+*/
+
+//Carrega uma lista de usuários buscando pelo Login.
+//$search = Usuario::search("o");
+//echo json_encode($search);
+
+//Carrega um usuário usando Login e Senha.
+$usuario = new Usuario;
+$usuario->login("joao", "lion");
+echo $usuario;
+
+
 
 ?>
 
