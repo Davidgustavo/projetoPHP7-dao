@@ -32,11 +32,27 @@ echo $emp;
 //echo json_encode($search);
 
 //Carrega um usuário usando Login e Senha.
-$usuario = new Usuario;
-$usuario->login("joao", "lion");
+//$usuario = new Usuario;
+//$usuario->login("joao", "lion");
+//echo $usuario;
+
+//Criando um novo usuário
+//$aluno = new Usuario("aluno","@lun0");
+//$aluno->insert();
+//echo $aluno;
+
+//Alterar Um Usuario
+//$usuario = new Usuario();
+//$usuario->loadbyId(2);
+//$usuario->update("professor", "professor");
+//echo $usuario;
+
+
+
+$usuario = new Usuario();
+$usuario->loadbyId(2);
+$usuario->delete();
 echo $usuario;
-
-
 
 ?>
 

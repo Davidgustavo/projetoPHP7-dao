@@ -40,13 +40,15 @@ class Usuario {
 
 		if (count($resultado) > 0){
 
-			$row = $resultado[0];
+			$this->setData($resultado[0]);
 
-			$this->setIdusuario($row['idusuario']);
-			$this->setLogin($row['login']);
-			$this->setLogoff($row['logoff']);
+			                             //Substituição pelo metodo setData
+			//$row = $resultado[0];
+			//$this->setIdusuario($row['idusuario']);
+			//$this->setLogin($row['login']);
+			//$this->setLogoff($row['logoff']);
 			//$this->setCadastro($row['cadastro']);
-			$this->setCadastro(new DateTime ($row["cadastro"]));
+			//$this->setCadastro(new DateTime ($row["cadastro"]));
 		}		
 	} 
 
@@ -79,17 +81,76 @@ class Usuario {
 		    ));
 		
 		if (count($resultado) > 0){
+			
+			$this->setData($resultado[0]);
 
-			$row = $resultado[0];
-
-			$this->setIdusuario($row['idusuario']);
-			$this->setLogin($row['login']);
-			$this->setLogoff($row['logoff']);
-			$this->setCadastro(new DateTime ($row["cadastro"]));
+			                                 //Substituição pelo metodo setData
+			//$row = $resultado[0];
+			//$this->setIdusuario($row['idusuario']);
+			//$this->setLogin($row['login']);
+			//$this->setLogoff($row['logoff']);
+			//$this->setCadastro(new DateTime ($row["cadastro"]));
 		} else {
 			throw new Exception("Erro de Login e/ou Senha");
 
 		}
+	}
+
+	public function setData($data){
+
+		$this->setIdusuario($data['idusuario']);
+		$this->setLogin($data['login']);
+		$this->setLogoff($data['logoff']);
+		$this->setCadastro(new DateTime($data["cadastro"]));
+
+
+	}
+	public function insert(){
+
+		$sql = new Sql;
+
+		$resultado = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+
+			':LOGIN'=>$this->getLogin(),
+			':PASSWORD'=>$this->getLogoff()
+			));
+			if (count($resultado) > 0){
+				$this->setData($resultado[0]);
+			}
+
+
+	}
+	public function update($login , $password){
+
+		$this->setLogin($login);
+		$this->setLogoff($password);
+
+		$sql = new Sql();
+
+		$sql->query("UPDATE tbusuarios SET login = :LOGIN, logoff = :PASSWORD WHERE idusuario = :ID", array(
+			':LOGIN'=>$this->getLogin(),
+			':PASSWORD'=>$this->getLogoff(),
+			':ID'=>$this->getIdusuario()
+			));
+
+	}
+	public function delete(){
+
+		$sql = new Sql();
+
+		$sql->query("DELETE FROM tbusuarios WHERE idusuario = :ID", array(
+			':ID'=>$this->getIdusuario()
+			));
+		$this->setIdusuario(0);
+		$this->setLogin("");
+		$this->setLogoff("");
+		$this->setCadastro(new DateTime());
+	}	
+	public function __construct($login = "", $password = ""){
+
+		$this->setLogin($login);
+		$this->setLogoff($password);
+
 	}
 
 	public function __toString(){
